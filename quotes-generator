@@ -1,0 +1,101 @@
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+#include <fstream>
+#include <windows.h>
+#include <sstream>
+
+using namespace std;
+
+int number,sum,choice;
+string today,suma;
+fstream file;
+
+void add()
+{
+    string sentence;
+    int howm;
+    cout << "How many sentences?:";
+    cin  >> howm;
+
+    file.open("content.txt", ios::out | ios::app);
+
+    for(int i = 0; i < howm;i++)
+    {
+        cout << "Write here your sentence:";
+        cin  >> sentence;
+        sum++;
+        file<<sum<<"."<<sentence<<endl;
+        cout <<endl;
+    }
+
+    file.close();
+}
+
+void show(int number)
+{
+    int line=-1;
+
+
+
+    file.open("content.txt", ios::in);
+
+    if(file.good()==false)
+    {
+        cout << "The file is gone!";
+        Sleep(1000);
+    }
+
+    do
+    {
+        getline(file,today);
+        line++;
+
+    } while(line<number);
+
+    cout << today;
+
+    file.close();
+}
+
+int main()
+{
+    file.open("content.txt",ios::in);
+
+    getline(file,suma);
+
+    file.close();
+
+    stringstream geek(suma);
+    geek >> sum;
+
+    choice=0;
+    srand (time(NULL));
+    number = rand() % sum + 1;
+
+    do
+    {
+
+
+        show(number);
+        cout << "Do you want to add(1) or run away(2)?:";
+        cin  >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                add();
+                break;
+            default:
+                cout << "Something went wrong...";
+                Sleep(1000);
+                break;
+        }
+
+
+    } while(choice!=2);
+
+
+
+    return 0;
+}
